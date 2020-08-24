@@ -65,6 +65,11 @@ class Member_Commands(commands.Cog):
     async def ping(self, ctx):
         await ctx.send(f"{ctx.author.mention}   :ping_pong:   Pong! The bot's latency is {round(self.bot.latency * 1000)}ms.")
 
+    # GitHub Command
+    @commands.command()
+    async def github(self, ctx):
+        await ctx.send(f"{ctx.author.mention} Cifer's GitHub: https://github.com/CiferHD")
+
     # Twitch Command
     @commands.command()
     async def twitch(self, ctx):
