@@ -251,7 +251,7 @@ class Economy_System(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def steal(self, ctx, member : discord.Member):
+    async def steal(self, ctx, member : discord.Member, *, amount: PositiveInt):
 
         users = await self.get_bank_data()
 
@@ -263,40 +263,22 @@ class Economy_System(commands.Cog):
         bot_choices = ['Yes', 'Caught', 'No']
         randomChoice = random.choice(bot_choices)
         wallet_amt = users[str(member.id)]["Wallet"]
-        money = random.randint(0, wallet_amt)
         loss = random.randint(1, 501)
 
         if ctx.author == member:
             await ctx.send(f"{ctx.author.mention} You silly! Why you trying to steal from yourself? What a goof! :D")
             await ctx.send("https://media.discordapp.net/attachments/632249312101007374/742510339656122428/bub.gif")
+        elif amount > users[str(member.id)]["Wallet"]:
+            await ctx.send(f"{ctx.author.mention} The person who you are trying to steal from does not have the amount of money that you want.")
         elif randomChoice == "Yes":
-            users[str(member.id)]["Wallet"] -= money
-            users[str(ctx.author.id)]["Wallet"] += money
-            await ctx.send(f"{ctx.author.mention} has stolen ${money} from {member.mention}'s wallet!")
+            users[str(member.id)]["Wallet"] -= amount
+            users[str(ctx.author.id)]["Wallet"] += amount
+            await ctx.send(f"{ctx.author.mention} has stolen ${amount} from {member.mention}'s wallet!")
         elif randomChoice == "Caught":
             users[str(ctx.author.id)]["Wallet"] -= loss
             await ctx.send(f"{ctx.author.mention} was caught trying to steal money from {member.mention}! His fine: ${loss}.")
         elif randomChoice == "No":
             await ctx.send(f"{ctx.author.mention} tried to steal from {member.mention}, but got nothing.")
-
-        # permissions = 0
-        # if ctx.author == member:
-        #     permissions += 1
-        #     if permissions == 0:
-        #         if randomChoice == "Yes":
-        #             users[str(member.id)]["Wallet"] -= money
-        #             users[str(ctx.author.id)]["Wallet"] += money
-        #             await ctx.send(f"{ctx.author.mention} has stolen ${money} from {member.mention}'s wallet!")
-        #         elif randomChoice == "Caught":
-        #             users[str(ctx.author.id)]["Wallet"] -= loss
-        #             await ctx.send(f"{ctx.author.mention} was caught trying to steal money from {member.mention}! His fine: ${loss}.")
-        #         elif randomChoice == "No":
-        #             await ctx.send(f"{ctx.author.mention} tried to steal from {member.mention}, but got nothing.")
-        #     elif permissions == 1:
-        #         await ctx.send(f"{ctx.author.mention} You silly! Why you trying to steal from yourself? What a goof! :D")
-        #         await ctx.send("https://media.discordapp.net/attachments/632249312101007374/742510339656122428/bub.gif")
-
-
 
         await self.dump_data(users)
 
@@ -306,7 +288,9 @@ class Economy_System(commands.Cog):
             time_remaining = error.retry_after
             await ctx.send(f"{ctx.author.mention} You are currently on cooldown for this command. Time Remaining: {time_remaining:.2f} seconds.")
         elif isinstance(error, (commands.MissingRequiredArgument)):
-            await ctx.send(f"{ctx.author.mention} Who would you like to steal from? Try: `;steal <member>`.")
+            await ctx.send(f"{ctx.author.mention} Who would you like to steal from? Try: `;steal <member> <amount>`.")
+        elif isinstance(error, (commands.BadArgument)):
+            await ctx.send(f"{ctx.author.mention} Please ping the person instead of typing their name.")
 
     @commands.command()
     @commands.cooldown(5, 300, commands.BucketType.user)
