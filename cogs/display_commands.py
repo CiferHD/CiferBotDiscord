@@ -37,6 +37,7 @@ class Display_Commands(commands.Cog):
         embed.add_field(name = ";uptime", value = "This command will tell you the amount of time that the bot has been running for.", inline = True)
         embed.add_field(name = ";prefix", value = "This command tells you the prefix used for this bot.", inline = True)
         embed.add_field(name = ";ping", value = "This command tells you the latency of the bot.", inline = True)
+        embed.add_field(name = ";github", value = "This command will send the link to my GitHub account.", inline = True)
         embed.add_field(name = ";youtube", value = "This command will send the link to my YouTube channel. Be sure to subscribe! :)", inline = True)
         embed.add_field(name = ";twitch", value = "This command will send the link to my Twitch channel. Be sure to follow! :)", inline = True)
         embed.add_field(name = ";instagram", value = "This command will send the link to my Instagram account. Be sure to follow! :)", inline = True)
