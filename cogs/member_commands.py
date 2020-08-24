@@ -70,6 +70,11 @@ class Member_Commands(commands.Cog):
     async def github(self, ctx):
         await ctx.send(f"{ctx.author.mention} Cifer's GitHub: https://github.com/CiferHD")
 
+    # Source Code Command
+    @commands.command()
+    async def code(self, ctx):
+        await ctx.send(f"{ctx.author.mention} Code for CiferBot: https://github.com/CiferHD/CiferBotDiscord")
+
     # Twitch Command
     @commands.command()
     async def twitch(self, ctx):
