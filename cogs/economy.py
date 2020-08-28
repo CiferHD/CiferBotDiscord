@@ -262,7 +262,6 @@ class Economy_System(commands.Cog):
 
         bot_choices = ['Yes', 'Caught', 'No']
         randomChoice = random.choice(bot_choices)
-        wallet_amt = users[str(member.id)]["Wallet"]
         loss = random.randint(1, 501)
 
         if ctx.author == member:
